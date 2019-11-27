@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: delay
+          group: flight-watch
+server:
+  port: 8082
