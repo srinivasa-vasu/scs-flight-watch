@@ -12,6 +12,7 @@ import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.context.annotation.Bean;
 
 import io.humourmind.flightwatch.domain.FlightDelay;
+import reactor.core.publisher.Flux;
 
 @SpringBootApplication
 @EnableBinding(Sink.class)
@@ -27,12 +28,12 @@ public class FlightWatchApplication {
 	}
 
 	@Bean
-	public Consumer<FlightDelay> delayNotification() {
-		return delay -> {
+	public Consumer<Flux<FlightDelay>> delayNotification() {
+		return element -> element.subscribe(delay -> {
 			if (delay.getDelayInterval() >= DELAY_MINUTES) {
 				logger.info(delay.toString());
 			}
-		};
+		});
 	}
 
 }
