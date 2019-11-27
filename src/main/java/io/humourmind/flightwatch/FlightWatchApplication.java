@@ -1,13 +1,15 @@
 package io.humourmind.flightwatch;
 
+import java.util.function.Consumer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.context.annotation.Bean;
 
 import io.humourmind.flightwatch.domain.FlightDelay;
 
@@ -24,11 +26,13 @@ public class FlightWatchApplication {
 		SpringApplication.run(FlightWatchApplication.class, args);
 	}
 
-	@StreamListener(Sink.INPUT)
-	public void notification(FlightDelay delay) {
-		if (delay.getDelayInterval() >= DELAY_MINUTES) {
-			logger.info(delay.toString());
-		}
+	@Bean
+	public Consumer<FlightDelay> delayNotification() {
+		return delay -> {
+			if (delay.getDelayInterval() >= DELAY_MINUTES) {
+				logger.info(delay.toString());
+			}
+		};
 	}
 
 }

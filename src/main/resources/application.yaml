@@ -5,5 +5,7 @@ spring:
         input:
           destination: delay
           group: flight-watch
+      function:
+        definition: delayNotification
 server:
   port: 8082
