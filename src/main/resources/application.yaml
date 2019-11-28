@@ -7,5 +7,16 @@ spring:
           group: flight-watch
       function:
         definition: delayNotification
+  application:
+    name: flight-watch
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    export:
+      prometheus:
+        enabled: true
 server:
   port: 8082
