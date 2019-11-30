@@ -3,6 +3,7 @@ spring:
     stream:
       bindings:
         input:
+          binder: kafka
           destination: delay
 #          group: flight-watch
       function:
